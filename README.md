@@ -13,11 +13,9 @@ This repository contains two shell scripts to automate the setup of a basic Kube
 
 ### Getting Started:
 
-#### Clone the repository:
-``` git clone https://github.com/iYasser95/kubernetes ```
-
 #### Master Node Setup:
-- Copy the ```cluster-master.sh``` file into the Master node machine
+- In the Master Node Machine run the following commands to start the setup of the Node.
+- Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/cluster-master.sh```
 - Run ```sh cluster-master.sh```
 
 ##### After the Master Node setup:
@@ -26,7 +24,8 @@ Run the following commands after the script is finished
 - ```source ~/.bashrc```
 
 #### Worker Node Setup:
-- Copy the ```cluster-worker.sh``` file into the Master node machine
+- In the Worker Node Machine run the following commands to start the setup of the Node.
+- Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/cluster-worker.sh```
 - Run ```sh cluster-worker.sh```
 
 ### Resources:
