@@ -59,7 +59,7 @@ net.ipv4.ip_forward = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
-export DEFAULT_GATEWAY_IP=$(ip route show | awk '/default/ {print $9}')
+export DEFAULT_GATEWAY_IP=$(hostname -I | awk '{print $1}')
 print_message line '***************************************************************************************'
 print_message info 'Updating Hostfile'
 print_message line '***************************************************************************************'
