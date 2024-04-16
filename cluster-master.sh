@@ -69,6 +69,15 @@ print_message line '************************************************************
 # Update CentOS System
 yum update -y
 
+if ! command -v dnf >/dev/null 2>&1; then
+  echo ''
+  print_message line '***************************************************************************************'
+  print_message info 'Installing dnf ..'
+  print_message line '***************************************************************************************'
+  sudo yum install dnf -y
+  echo ''
+fi
+
 # Prepare for containerd installation
 sudo dnf install -y yum-utils
 
