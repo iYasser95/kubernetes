@@ -194,8 +194,16 @@ print_message line '************************************************************
 sudo kubeadm init --pod-network-cidr 10.244.0.0/16
 
 # Export Kube Config
-echo 'export KUBECONFIG=/etc/kubernetes/admin.conf' >> ~/.bashrc
-source ~/.bashrc
+# Create a script named 'update-kubeconfig.sh'
+echo "echo 'export KUBECONFIG=/etc/kubernetes/admin.conf' >> ~/.bashrc" > update-kubeconfig.sh
+echo "source ~/.bashrc" >> update-kubeconfig.sh
+echo "rm -- \$0" >> update-kubeconfig.sh  # Remove the script after it runs
+
+# Make the script executable
+chmod +x update-kubeconfig.sh
+
+# To run and apply changes to the current shell
+source ./update-kubeconfig.sh
 echo ''
 print_message line '***************************************************************************************'
 print_message info 'Initialize the Networking Pods with Flannel ...'
