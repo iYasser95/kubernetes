@@ -201,13 +201,7 @@ print_message info 'Initialize the Networking Pods with Flannel ...'
 print_message line '***************************************************************************************'
 # Initialize the Networking Pods
 kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
-echo ''
-print_message line '***************************************************************************************'
-print_message info '* If you get connection error using (kubectl) commands then use the following commands'
-print_message info '* echo export KUBECONFIG=/etc/kubernetes/admin.conf >> ~/.bashrc'
-print_message info '* source ~/.bashrc'
-print_message line '***************************************************************************************'
-echo ''
+
 echo ''
 print_message line '***************************************************************************************'
 print_message info '* To generate the join command for the worker node using the following command'
@@ -220,7 +214,7 @@ print_message success 'Intalizeing of Kubernetes controlplane (master) node is c
 print_message line '***************************************************************************************'
 
 echo ''
-echo ''
 print_message line '***************************************************************************************'
-print_message info '* Run (source ~/.bashrc) to Start using (kubectl) Commands *'
+print_message info '* Run the following command to Start using (kubectl) Commands *'
+print_message info 'source ~/.bashrc'
 print_message line '***************************************************************************************'
