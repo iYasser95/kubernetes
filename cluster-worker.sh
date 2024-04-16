@@ -11,6 +11,21 @@ print_message() {
     esac
 }
 
+# Prompt for user input
+read -p "Enter the desired hostname (e.g., worker-node-1 - make sure it unique from other worker nodes): " hostname
+
+# Validate input (optional)
+if [[ -z "$hostname" ]]; then
+  echo "Error: Please enter a hostname."
+  exit 1
+fi
+
+echo ''
+print_message line '***************************************************************************************'
+print_message info 'Updating Hostname and Hosts file'
+print_message line '***************************************************************************************'
+# Set hostname with sudo
+sudo hostnamectl set-hostname "$hostname"
 echo ''
 print_message line '***************************************************************************************'
 print_message info 'Updating the System ..'
@@ -43,14 +58,6 @@ net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
-
-echo ''
-print_message line '***************************************************************************************'
-print_message info 'Updating Hostname and Hosts file'
-print_message line '***************************************************************************************'
-echo ''
-# Change hostname
-sudo hostnamectl set-hostname worker-node-1
 
 export DEFAULT_GATEWAY_IP=$(ip route show | awk '/default/ {print $9}')
 
