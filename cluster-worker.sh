@@ -22,7 +22,7 @@ fi
 
 echo ''
 print_message line '***************************************************************************************'
-print_message info 'Updating Hostname and Hosts file'
+print_message info 'Updating Hostname'
 print_message line '***************************************************************************************'
 # Set hostname with sudo
 sudo hostnamectl set-hostname "$hostname"
@@ -60,11 +60,14 @@ net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
 export DEFAULT_GATEWAY_IP=$(ip route show | awk '/default/ {print $9}')
+print_message line '***************************************************************************************'
+print_message info 'Updating Hostfile'
+print_message line '***************************************************************************************'
 
 # Modify /etc/hosts file
 sudo bash -c "echo \"$DEFAULT_GATEWAY_IP worker-node-1\" >> /etc/hosts"
 print_message line '***************************************************************************************'
-print_message success "Hostname Changed into: worker-node-1 | Default IP Detected: $DEFAULT_GATEWAY_IP"
+print_message success "Hostname Changed into: $hostname | Default IP Detected: $DEFAULT_GATEWAY_IP"
 print_message line '***************************************************************************************'
 echo ''
 
