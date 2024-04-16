@@ -194,13 +194,7 @@ print_message line '************************************************************
 sudo kubeadm init --pod-network-cidr 10.244.0.0/16
 
 # Export Kube Config
-files=(.bash_profile .bashrc .cshrc .tcshrc .bash_login .profile)
-
-for file in "${files[@]}"; do
-    if [ -f ~/$file ]; then
-        echo "export KUBECONFIG=/etc/kubernetes/admin.conf" >> ~/$file
-    fi
-done
+echo 'export KUBECONFIG=/etc/kubernetes/admin.conf' >> ~/.bashrc
 echo ''
 print_message line '***************************************************************************************'
 print_message info 'Initialize the Networking Pods with Flannel ...'
@@ -224,5 +218,9 @@ echo ''
 print_message line '***************************************************************************************'
 print_message success 'Intalizeing of Kubernetes controlplane (master) node is complete you can start using the cluster..'
 print_message line '***************************************************************************************'
-# Get Join Command for Worker node. 
-# sudo kubeadm token create --print-join-command
+
+echo ''
+echo ''
+print_message line '***************************************************************************************'
+print_message info '* Run 'source ~/.bashrc' to Start using 'kubectl' Commands *'
+print_message line '***************************************************************************************'
