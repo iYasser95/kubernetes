@@ -222,5 +222,5 @@ print_message line '************************************************************
 echo ''
 echo ''
 print_message line '***************************************************************************************'
-print_message info '* Run 'source ~/.bashrc' to Start using 'kubectl' Commands *'
+print_message info '* Run (source ~/.bashrc) to Start using (kubectl) Commands *'
 print_message line '***************************************************************************************'
