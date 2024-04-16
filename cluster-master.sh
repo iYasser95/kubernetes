@@ -103,7 +103,7 @@ echo ''
 # Change hostname
 sudo hostnamectl set-hostname master-node
 
-export DEFAULT_GATEWAY_IP=$(ip route show | awk '/default/ {print $9}')
+export DEFAULT_GATEWAY_IP=$(hostname -I | awk '{print $1}')
 
 # Modify /etc/hosts file
 sudo bash -c "echo \"$DEFAULT_GATEWAY_IP master-node\" >> /etc/hosts"
