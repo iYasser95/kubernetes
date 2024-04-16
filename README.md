@@ -19,8 +19,7 @@ This repository contains two shell scripts to automate the setup of a basic Kube
 - Run ```sh cluster-master.sh```
 
 ##### After the Master Node setup:
-Run the following commands after the script is finished
-- ```echo export KUBECONFIG=/etc/kubernetes/admin.conf >> ~/.bashrc``` 
+Run the following command after the script is finished
 - ```source ~/.bashrc```
 
 #### Worker Node Setup:
