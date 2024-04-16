@@ -65,7 +65,7 @@ print_message info 'Updating Hostfile'
 print_message line '***************************************************************************************'
 
 # Modify /etc/hosts file
-sudo bash -c "echo \"$DEFAULT_GATEWAY_IP worker-node-1\" >> /etc/hosts"
+sudo bash -c "echo \"$DEFAULT_GATEWAY_IP $hostname\" >> /etc/hosts"
 print_message line '***************************************************************************************'
 print_message success "Hostname Changed into: $hostname | Default IP Detected: $DEFAULT_GATEWAY_IP"
 print_message line '***************************************************************************************'
