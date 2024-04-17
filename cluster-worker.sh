@@ -33,17 +33,8 @@ print_message line '************************************************************
 # Update CentOS System
 yum update -y
 
-if ! command -v dnf >/dev/null 2>&1; then
-  echo ''
-  print_message line '***************************************************************************************'
-  print_message info 'Installing dnf ..'
-  print_message line '***************************************************************************************'
-  sudo yum install dnf -y
-  echo ''
-fi
-
 # Prepare for containerd installation
-sudo dnf install -y yum-utils
+sudo yum install -y yum-utils
 
 sudo modprobe overlay
 sudo modprobe br_netfilter
@@ -85,7 +76,7 @@ print_message line '************************************************************
 sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
-sudo dnf remove -y podman # podman might cause issues/conflicts with containerd
+sudo yum remove -y podman # podman might cause issues/conflicts with containerd
 print_message line '***************************************************************************************'
 print_message success 'podman removed..'
 print_message line '***************************************************************************************'
@@ -94,7 +85,7 @@ print_message line '************************************************************
 print_message info 'Installing Container D..'
 print_message line '***************************************************************************************'
 # Install and configure containerd
-sudo dnf install -y containerd.io
+sudo yum install -y containerd.io
 
 sudo mkdir -p /etc/containerd
 sudo containerd config default | sudo tee /etc/containerd/config.toml
