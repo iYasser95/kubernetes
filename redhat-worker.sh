@@ -14,7 +14,7 @@ print_message() {
 # Prompt for user input
 read -p "Enter the desired hostname (e.g., worker-node-1 - make sure it unique from other worker nodes): " hostname
 
-# Validate input (optional)
+# Validate input
 if [[ -z "$hostname" ]]; then
   echo "Error: Please enter a hostname."
   exit 1
@@ -99,7 +99,7 @@ print_message success "Hostname Changed into: $hostname | Default IP Detected: $
 print_message line '***************************************************************************************'
 echo ''
 
-# Disable Swap
+# Disable Swap - Kubelet doesn't work if Swap is enabled.
 sudo sed -i '/swap/d' /etc/fstab
 sudo swapoff -a
 if [[ "$distro" == *Fedora* ]]; then

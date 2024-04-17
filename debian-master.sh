@@ -67,7 +67,7 @@ print_message success 'System Requirement Check is Done ..'
 # Prompt for user input
 read -p "Enter the desired hostname (e.g., master-node - make sure it unique from other nodes): " hostname
 
-# Validate input (optional)
+# Validate input
 if [[ -z "$hostname" ]]; then
   echo "Error: Please enter a hostname."
   exit 1
@@ -75,7 +75,7 @@ fi
 print_message line '***************************************************************************************'
 print_message info 'Updating Hostname'
 print_message line '***************************************************************************************'
-# Set hostname with sudo
+# Set hostname
 sudo hostnamectl set-hostname "$hostname"
 echo ''
 print_message line '***************************************************************************************'
@@ -112,7 +112,7 @@ print_message line '************************************************************
 print_message success "Hostname Changed into: $hostname | Default IP Detected: $DEFAULT_GATEWAY_IP"
 print_message line '***************************************************************************************'
 echo ''
-# Disable Swap 
+# Disable Swap - Kubelet doesn't work if Swap is enabled.
 sudo sed -i '/swap/d' /etc/fstab
 sudo swapoff -a
 print_message line '***************************************************************************************'
