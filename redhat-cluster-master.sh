@@ -1,4 +1,5 @@
-# This Script is configured to be used with CentOS Stream 9.
+#!/bin/bash
+# This Script is configured to be used with Red-Hat Distributions.
 
 # Helper Function
 print_message() {
@@ -31,9 +32,9 @@ fi
 # Check System Type 
 DISTRO_NAME=$(awk -F'=' '/^NAME=/{gsub(/"/, "", $2); print $2}' /etc/*release*)
 
-# Check if the variable contains "centos" (case-insensitive and ignoring spaces)
-if [[ $(echo "$DISTRO_NAME" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]') != *"centos"* ]]; then
-    print_message error "This Script is only valid for CentOS. Modify on your own risk"
+# Check if the variable contains "centos" or "fedora" (case-insensitive and ignoring spaces)
+if ! echo "$DISTRO_NAME" | tr '[:upper:]' '[:lower:]' | grep -Eq "centos|fedora"; then
+    print_message error "This script is only valid for CentOS or Fedora. Modify at your own risk."
     exit 1
 fi
 
@@ -63,12 +64,53 @@ if [ "$CPU_COUNT" -lt 2 ]; then
     print_message info '** WARNING **'
 fi
 print_message success 'System Requirement Check is Done ..'
+# Prompt for user input
+read -p "Enter the desired hostname (e.g., master-node - make sure it unique from other nodes): " hostname
+
+# Validate input (optional)
+if [[ -z "$hostname" ]]; then
+  echo "Error: Please enter a hostname."
+  exit 1
+fi
+print_message line '***************************************************************************************'
+print_message info 'Updating Hostname'
+print_message line '***************************************************************************************'
+# Set hostname with sudo
+sudo hostnamectl set-hostname "$hostname"
+echo ''
 print_message line '***************************************************************************************'
 print_message info 'Updating the System ..'
 print_message line '***************************************************************************************'
-# Update CentOS System
+# Update System
 yum update -y
 
+if ! command -v lsb_release &> /dev/null
+then
+    yum install redhat-lsb-core -y
+fi
+
+# Get the distribution ID
+distro=$(lsb_release -is)
+
+# Initialize the base URL
+base_url="https://download.docker.com/linux/"
+
+# Determine the appropriate repository based on the distribution
+case "$distro" in
+    CentOS)
+        repo_url="${base_url}centos/docker-ce.repo"
+        ;;
+    Fedora)
+        repo_url="${base_url}fedora/docker-ce.repo"
+        ;;
+    RedHatEnterpriseServer)
+        repo_url="${base_url}centos/docker-ce.repo"
+        ;;
+    *)
+        echo "Unsupported distribution: $distro"
+        exit 1
+        ;;
+esac
 
 # Prepare for containerd installation
 sudo yum install -y yum-utils
@@ -92,20 +134,26 @@ print_message line '************************************************************
 print_message info 'Updating Hostname and Hosts file'
 print_message line '***************************************************************************************'
 echo ''
-# Change hostname
-sudo hostnamectl set-hostname master-node
-
+echo ''
 export DEFAULT_GATEWAY_IP=$(hostname -I | awk '{print $1}')
+print_message line '***************************************************************************************'
+print_message info 'Updating Hostfile'
+print_message line '***************************************************************************************'
 
 # Modify /etc/hosts file
-sudo bash -c "echo \"$DEFAULT_GATEWAY_IP master-node\" >> /etc/hosts"
+sudo bash -c "echo \"$DEFAULT_GATEWAY_IP $hostname\" >> /etc/hosts"
 print_message line '***************************************************************************************'
-print_message success "Hostname Changed into: master-node | Default IP Detected: $DEFAULT_GATEWAY_IP"
+print_message success "Hostname Changed into: $hostname | Default IP Detected: $DEFAULT_GATEWAY_IP"
 print_message line '***************************************************************************************'
 echo ''
-# Disable Swap 
+# Disable Swap - Kubelet doesn't work if Swap is enabled.
 sudo sed -i '/swap/d' /etc/fstab
 sudo swapoff -a
+if [[ "$distro" == *Fedora* ]]; then
+    sudo swapoff /dev/zram0
+    sudo systemctl mask systemd-zram-setup@zram0.service
+fi
+
 print_message line '***************************************************************************************'
 print_message success 'Swap is Disabled..'
 print_message line '***************************************************************************************'
@@ -113,9 +161,8 @@ sudo sysctl --system
 print_message line '***************************************************************************************'
 print_message info 'Removing podman..'
 print_message line '***************************************************************************************'
-sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum-config-manager --add-repo $repo_url
 sudo yum remove -y podman # podman might cause issues/conflicts with containerd
 print_message line '***************************************************************************************'
 print_message success 'podman removed..'
@@ -174,6 +221,15 @@ rm -f crictl-$VERSION-linux-$ARCH_SUFFIX.tar.gz
 echo ''
 
 # Enable Ports
+
+if ! command -v firewalld >/dev/null 2>&1; then
+    print_message line '***************************************************************************************'
+    print_message info 'Installing Firewall..'
+    print_message line '***************************************************************************************'
+    yum install firewalld -y 
+    sudo systemctl enable firewalld
+    sudo systemctl start firewalld
+fi
 echo ''
 print_message line '***************************************************************************************'
 print_message info 'Enabling the Following Ports for Master Node'
