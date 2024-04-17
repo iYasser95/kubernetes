@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# This Script is configured to be used with Red-Hat Distributions.
 # Helper Function
 print_message() {
     case "$1" in
@@ -20,7 +20,16 @@ if [[ -z "$hostname" ]]; then
   exit 1
 fi
 
-echo ''
+# Check CPU and RAM Requirements
+TOTAL_RAM=$(free -m | awk '/^Mem:/{print $2}')
+CPU_COUNT=$(nproc)
+print_message line '***************************************************************************************'
+print_message info 'Checking System Requirements ..'
+print_message info "System Architecture is: $ARCH_SUFFIX"
+print_message info "System Type is: $DISTRO_NAME"
+print_message info "Package Manager: $PKG_MANAGER"
+print_message info "Total RAM: ${TOTAL_RAM}MB"
+print_message info "CPU Count: ${CPU_COUNT}"
 print_message line '***************************************************************************************'
 print_message info 'Updating Hostname'
 print_message line '***************************************************************************************'
@@ -32,6 +41,34 @@ print_message info 'Updating the System ..'
 print_message line '***************************************************************************************'
 # Update CentOS System
 yum update -y
+
+if ! command -v lsb_release &> /dev/null
+then
+    yum install redhat-lsb-core -y
+fi
+
+# Get the distribution ID
+distro=$(lsb_release -is)
+
+# Initialize the base URL
+base_url="https://download.docker.com/linux/"
+
+# Determine the appropriate repository based on the distribution
+case "$distro" in
+    CentOS)
+        repo_url="${base_url}centos/docker-ce.repo"
+        ;;
+    Fedora)
+        repo_url="${base_url}fedora/docker-ce.repo"
+        ;;
+    RedHatEnterpriseServer)
+        repo_url="${base_url}centos/docker-ce.repo"
+        ;;
+    *)
+        echo "Unsupported distribution: $distro"
+        exit 1
+        ;;
+esac
 
 # Prepare for containerd installation
 sudo yum install -y yum-utils
@@ -65,6 +102,10 @@ echo ''
 # Disable Swap
 sudo sed -i '/swap/d' /etc/fstab
 sudo swapoff -a
+if [[ "$distro" == *Fedora* ]]; then
+    sudo swapoff /dev/zram0
+    sudo systemctl mask systemd-zram-setup@zram0.service
+fi
 echo 'Swap is Disabled..'
 print_message line '***************************************************************************************'
 print_message success 'Swap is Disabled..'
@@ -73,9 +114,7 @@ sudo sysctl --system
 print_message line '***************************************************************************************'
 print_message info 'Removing podman..'
 print_message line '***************************************************************************************'
-sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum-config-manager --add-repo $repo_url
 sudo yum remove -y podman # podman might cause issues/conflicts with containerd
 print_message line '***************************************************************************************'
 print_message success 'podman removed..'
@@ -134,6 +173,15 @@ sudo tar zxvf crictl-$VERSION-linux-$ARCH_SUFFIX.tar.gz -C /usr/local/bin
 rm -f crictl-$VERSION-linux-$ARCH_SUFFIX.tar.gz
 echo ''
 # Enable Ports
+
+if ! command -v firewalld >/dev/null 2>&1; then
+    print_message line '***************************************************************************************'
+    print_message info 'Installing Firewall..'
+    print_message line '***************************************************************************************'
+    yum install firewalld -y 
+    sudo systemctl enable firewalld
+    sudo systemctl start firewalld
+fi
 echo ''
 print_message line '***************************************************************************************'
 print_message info 'Enabling the Following Ports for Worker Node'
