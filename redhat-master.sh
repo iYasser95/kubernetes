@@ -32,7 +32,7 @@ fi
 # Check System Type 
 DISTRO_NAME=$(awk -F'=' '/^NAME=/{gsub(/"/, "", $2); print $2}' /etc/*release*)
 
-# Check if the variable contains "centos" or "fedora" (case-insensitive and ignoring spaces)
+# Check if the variable contains "centos" or "fedora"
 if ! echo "$DISTRO_NAME" | tr '[:upper:]' '[:lower:]' | grep -Eq "centos|fedora"; then
     print_message error "This script is only valid for CentOS or Fedora. Modify at your own risk."
     exit 1
@@ -67,7 +67,7 @@ print_message success 'System Requirement Check is Done ..'
 # Prompt for user input
 read -p "Enter the desired hostname (e.g., master-node - make sure it unique from other nodes): " hostname
 
-# Validate input (optional)
+# Validate input
 if [[ -z "$hostname" ]]; then
   echo "Error: Please enter a hostname."
   exit 1
@@ -75,7 +75,7 @@ fi
 print_message line '***************************************************************************************'
 print_message info 'Updating Hostname'
 print_message line '***************************************************************************************'
-# Set hostname with sudo
+# Set hostname
 sudo hostnamectl set-hostname "$hostname"
 echo ''
 print_message line '***************************************************************************************'
