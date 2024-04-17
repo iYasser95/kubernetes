@@ -61,6 +61,9 @@ Run the following command on the Master Node to get the command to join the Work
 - ```sudo kubeadm token create --print-join-command```
 
 ## Exceptions 
+##### If you get error related to permissions of ```admin.conf``` file run the following commands: 
+- Run ```sudo su``` or ```sudo chmod +r /etc/kubernetes/admin.conf```
+
 ##### If you get connection error while running ```kubectl``` commands then make sure the following commands were run correctly:
 - ```echo 'export KUBECONFIG=/etc/kubernetes/admin.conf' >> ~/.bashrc```
 - ```source ~/.bashrc```
