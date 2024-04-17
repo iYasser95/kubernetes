@@ -10,6 +10,22 @@
 - ```yum``` Package manager for Red-Hat Distributions | ```apt``` Package manager for Debian Distributions
 - ```sudo``` access for all machines
 
+## Automated Setup using Curl
+- You can use ```start.sh``` Script to setup both the Master and Worker Node using the following commands
+- Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/start.sh```
+- Run ```sudo su```
+- Run ```. start.sh```
+- You will be promted to enter either 1 to start the Master Node setup or 2 to start the Worker Node setup
+- The Linux Distribution will be detected and the correct Script for it will Run.
+## Automated Setup using Clone
+- You can use ```start.sh``` Script to setup both the Master and Worker Node using the following commands
+- Run ```git clone https://github.com/iYasser95/kubernetes.git```
+- Run ```cd kubernetes```
+- Run ```sudo su```
+- Run ```. start.sh```
+- You will be promted to enter either 1 to start the Master Node setup or 2 to start the Worker Node setup
+- The Linux Distribution will be detected and the correct Script for it will Run.
+
 ## Master Node Setup:
 ##### Red Hat-based distributions Setup 
 - In the Master Node Machine run the following commands to start the setup of the Node.
