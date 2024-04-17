@@ -15,12 +15,12 @@
 - In the Master Node Machine run the following commands to start the setup of the Node.
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/redhat-master.sh```
 - Run ```sudo su``` 
-- Run ```. redhat-cluster-master.sh```
+- Run ```. redhat-master.sh```
 ##### Debian-based distributions Setup
 - In the Master Node Machine run the following commands to start the setup of the Node.
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/debian-master.sh```
 - Run ```sudo su``` 
-- Run ```. debian-cluster-master.sh```
+- Run ```. debian-master.sh```
 
 ##### After the Master Node setup:
 Run the following command after the script is finished to be able to use ```kubectl```  commands
@@ -31,13 +31,13 @@ Run the following command after the script is finished to be able to use ```kube
 - In the Worker Node Machine run the following commands to start the setup of the Node.
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/redhat-worker.sh```
 - Run ```sudo su``` 
-- Run ```. redhat-cluster-worker.sh```
+- Run ```. redhat-worker.sh```
 - Worker Nodes Name must be unique, you'll be asked to enter the name once the script starts
 ##### Debian-based distributions Setup
 - In the Worker Node Machine run the following commands to start the setup of the Node.
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/debian-worker.sh```
 - Run ```sudo su``` 
-- Run ```. debian-cluster-worker.sh```
+- Run ```. debian-worker.sh```
 - Worker Nodes Name must be unique, you'll be asked to enter the name once the script starts
 
 ##### After the Worker Node setup:
