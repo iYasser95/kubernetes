@@ -195,6 +195,7 @@ sudo kubeadm init --pod-network-cidr 10.244.0.0/16
 # Export Kube Config
 echo 'export KUBECONFIG=/etc/kubernetes/admin.conf' >> ~/.bashrc
 source ~/.bashrc
+sudo chmod +r /etc/kubernetes/admin.conf
 echo ''
 print_message line '***************************************************************************************'
 print_message info 'Initialize the Networking Pods with Flannel ...'

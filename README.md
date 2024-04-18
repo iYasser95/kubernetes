@@ -13,7 +13,6 @@
 ## Automated Setup using Curl
 - You can use ```start.sh``` Script to setup both the Master and Worker Node using the following commands
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/start.sh```
-- Run ```sudo su```
 - Run ```. start.sh```
 - You will be promted to enter either 1 to start the Master Node setup or 2 to start the Worker Node setup
 - The Linux Distribution will be detected and the correct Script for it will Run.
@@ -21,7 +20,6 @@
 - You can use ```start.sh``` Script to setup both the Master and Worker Node using the following commands
 - Run ```git clone https://github.com/iYasser95/kubernetes.git```
 - Run ```cd kubernetes```
-- Run ```sudo su```
 - Run ```. start.sh```
 - You will be promted to enter either 1 to start the Master Node setup or 2 to start the Worker Node setup
 - The Linux Distribution will be detected and the correct Script for it will Run.
@@ -30,12 +28,10 @@
 ##### Red Hat-based distributions Setup 
 - In the Master Node Machine run the following commands to start the setup of the Node.
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/redhat-master.sh```
-- Run ```sudo su``` 
 - Run ```. redhat-master.sh```
 ##### Debian-based distributions Setup
 - In the Master Node Machine run the following commands to start the setup of the Node.
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/debian-master.sh```
-- Run ```sudo su``` 
 - Run ```. debian-master.sh```
 
 ##### After the Master Node setup:
@@ -46,13 +42,11 @@ Run the following command after the script is finished to be able to use ```kube
 ##### Red Hat-based distributions Setup
 - In the Worker Node Machine run the following commands to start the setup of the Node.
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/redhat-worker.sh```
-- Run ```sudo su``` 
 - Run ```. redhat-worker.sh```
 - Worker Nodes Name must be unique, you'll be asked to enter the name once the script starts
 ##### Debian-based distributions Setup
 - In the Worker Node Machine run the following commands to start the setup of the Node.
 - Run ```curl -O https://raw.githubusercontent.com/iYasser95/kubernetes/main/debian-worker.sh```
-- Run ```sudo su``` 
 - Run ```. debian-worker.sh```
 - Worker Nodes Name must be unique, you'll be asked to enter the name once the script starts
 
@@ -61,8 +55,6 @@ Run the following command on the Master Node to get the command to join the Work
 - ```sudo kubeadm token create --print-join-command```
 
 ## Exceptions 
-##### If you get error related to permissions of ```admin.conf``` file run the following commands: 
-- Run ```sudo su``` or ```sudo chmod +r /etc/kubernetes/admin.conf```
 
 ##### If you get connection error while running ```kubectl``` commands then make sure the following commands were run correctly:
 - ```echo 'export KUBECONFIG=/etc/kubernetes/admin.conf' >> ~/.bashrc```

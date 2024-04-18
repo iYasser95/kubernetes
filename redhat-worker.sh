@@ -40,11 +40,11 @@ print_message line '************************************************************
 print_message info 'Updating the System ..'
 print_message line '***************************************************************************************'
 # Update CentOS System
-yum update -y
+sudo yum update -y
 
 if ! command -v lsb_release &> /dev/null
 then
-    yum install redhat-lsb-core -y
+    sudo yum install redhat-lsb-core -y
 fi
 
 # Get the distribution ID
@@ -178,7 +178,7 @@ if ! command -v firewalld >/dev/null 2>&1; then
     print_message line '***************************************************************************************'
     print_message info 'Installing Firewall..'
     print_message line '***************************************************************************************'
-    yum install firewalld -y 
+    sudo yum install firewalld -y 
     sudo systemctl enable firewalld
     sudo systemctl start firewalld
 fi

@@ -44,7 +44,7 @@ run_scripts() {
         print_message line '***************************************************************************************'
         print_message info 'Script found in the current directory, Running Script..'
         print_message line '***************************************************************************************'
-        sudo su -c ". $file_path"
+        . $file_path
     else
         echo ''
         print_message line '***************************************************************************************'
@@ -56,7 +56,7 @@ run_scripts() {
             print_message line '***************************************************************************************'
             print_message info 'Script Download Successful, Running Script..'
             print_message line '***************************************************************************************'
-            sudo su -c ". $file_path"
+            . $file_path
         else
             echo ''
             print_message line '***************************************************************************************'
