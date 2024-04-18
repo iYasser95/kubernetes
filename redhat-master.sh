@@ -97,13 +97,13 @@ base_url="https://download.docker.com/linux/"
 
 # Determine the appropriate repository based on the distribution
 case "$distro" in
-    CentOS)
+    *CentOS*)
         repo_url="${base_url}centos/docker-ce.repo"
         ;;
-    Fedora)
+    *Fedora*)
         repo_url="${base_url}fedora/docker-ce.repo"
         ;;
-    RedHatEnterpriseServer)
+    *RedHat* | *RHEL*)
         repo_url="${base_url}centos/docker-ce.repo"
         ;;
     *)
