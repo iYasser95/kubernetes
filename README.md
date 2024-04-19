@@ -1,6 +1,7 @@
 # Kubernetes Cluster Setup Scripts
 - This repository contains master and worker node scripts for both Debian and Red-Hat based distributions.
-- The Script were tested on (CentOS - Fedora - Debian - Ubuntu) in both Virtual and Cloud VM.
+- The Scripts were tested on (CentOS - Fedora - Debian - Ubuntu) in both Virtual and Cloud VM.
+- The Provided Scripts are used to deploy a basic Development Cluster.
 
 ## Requirements:
 
@@ -55,11 +56,10 @@ Run the following command on the Master Node to get the command to join the Work
 - ```sudo kubeadm token create --print-join-command```
 
 ## Exceptions 
-
 ##### If you get connection error while running ```kubectl``` commands then make sure the following commands were run correctly:
 - ```echo 'export KUBECONFIG=/etc/kubernetes/admin.conf' >> ~/.bashrc```
 - ```source ~/.bashrc```
-##### If the Node is showing status NotReady make sure the Networking pods were installed correctly using the following command:
+##### If the Node is showing status ```NotReady``` then make sure the Networking pods were installed correctly using the following command:
 - ```kubectl get pod -nkube-flannel```
 - If the pods were not installed then run the following command:
 - ```kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml```
