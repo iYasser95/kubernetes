@@ -69,4 +69,4 @@ Run the following command on the Master Node to get the command to join the Work
 - [Kubeadm Documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 
 ### License
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://raw.githubusercontent.com/iYasser95/kubernetes/main/LICENSE)
