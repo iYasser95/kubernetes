@@ -183,6 +183,7 @@ sudo ufw allow 10250/tcp
 sudo ufw allow 10251/tcp
 sudo ufw allow 10252/tcp
 sudo ufw allow 10255/tcp
+sudo ufw allow 22/tcp
 sudo ufw reload
 
 echo ''
